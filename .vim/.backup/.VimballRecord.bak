@@ -1,0 +1,2 @@
+FSwitch-0.9.2.vba: call delete('/usr/home/nathan/.vim/plugin/fswitch.vim')|call delete('/usr/home/nathan/.vim/doc/fswitch.txt')
+myprojects.vba: call delete('/afs/epitech.net/users/epitech_2013/appere_n/cu/.vim/plugin/myprojects.vim')|call delete('/afs/epitech.net/users/epitech_2013/appere_n/cu/.vim/syntax/myprojects.vim')|call delete('/afs/epitech.net/users/epitech_2013/appere_n/cu/.vim/syntax/myprojectsSvn.vim')

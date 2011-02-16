@@ -1,0 +1,102 @@
+# main()
+snippet main
+	int	main(int , const char **)
+	{
+	  ${1}
+	  return (0);
+	}
+# #include <...>
+snippet Inc
+	#include <${1:iostream}>
+#
+# Read File Into Vector
+snippet readfile
+	std::vector<char> v;
+	if (FILE *${2:fp} = fopen(${1:"filename"}, "r")) {
+		char buf[1024];
+		while (size_t len = fread(buf, 1, sizeof(buf), $2))
+			v.insert(v.end(), buf, buf + len);
+		fclose($2);
+	}${3}
+#
+# std::map
+snippet map
+	std::map<${1:key}, ${2:value}> map${3};
+#
+# std::vector
+snippet vector
+	std::vector<${1:char}> v${2};
+#
+# Namespace
+snippet ns
+	namespace ${1:`Filename('', 'my')`}
+	{
+	  ${2}
+	} /* namespace: $1 */
+#
+snippet uns
+	using namespace ${1};
+#
+# Class
+snippet cl
+	class	${1:`Filename('$1', 'name')`}
+	{
+
+	public:
+	  typedef $1 self_t;
+
+	public:
+	  $1() {}
+	  $1 (const self_t& ) {}
+
+	  virtual ~$1() {}
+
+	public:
+	  self_t& operator = (const self_t& ) { return (*this); };
+
+	public:
+	  ${2}
+
+	protected:
+
+	}; /* class: $1 */
+#
+# std::cout
+snippet co
+	std::cout << "${1}" << std::endl;
+#
+snippet ce
+	std::cerr << "${1}" << std::endl;
+#
+#
+snippet iter
+	for (${1:std::vector}<${2:int}>::${3:const_iterator} ${4:i} = ${5:c}.begin(); $4 != $5.end(); ++$4)
+	  {
+	    ${6}
+	  }
+#
+#
+snippet tpl
+	template <${1}>${2}
+snippet tpl1
+	template <${1}>${2}
+snippet tpl2
+	template <${1}> template<${2}>${3}
+snippet tpl3
+	template <${1}> template<${2}> template<${3}>${4} 
+#
+snippet c
+	class 
+snippet tn
+	typename 
+#
+snippet gs
+	const ${1:int}&		get${2:_Name}() const
+	  {
+	    return (_$2);
+	  }
+
+	void			set$2($1& $2)
+	  {
+	    _$2 = $2;
+	  }

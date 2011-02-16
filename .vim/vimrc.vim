@@ -1,0 +1,269 @@
+"
+" Largement copie sur le vimrc de Bart Trojanowski : http://www.jukie.net/~bart/conf/vimrc
+"
+
+nnoremap <silent> gn "_yiw:s/\(\%#\w\+\)\(\_W\+\)\(\w\+\)/\3\2\1/<CR><c-o><c-l>
+nnoremap <silent> gl "_yiw?\w\+\_W\+\%#<CR>:s/\(\%#\w\+\)\(\_W\+\)\(\w\+\)/\3\2\1/<CR><c-o><c-l>
+nnoremap <silent> gr "_yiw:s/\(\%#\w\+\)\(\_W\+\)\(\w\+\)/\3\2\1/<CR><c-o>/\w\+\_W\+<CR><c-l>
+
+
+nnoremap <F4>	:MyProjectsToggle<cr>
+
+set nocp " non vi compatible mode
+filetype plugin on " enable plugins
+set tags+=./tags
+
+
+" ---------------------------------------------------------------------------
+" first the disabled features due to security concerns
+set modelines=0         " no modelines [http://www.guninski.com/vim1.html]
+"let g:secure_modelines_verbose=1 " securemodelines vimscript
+
+" ---------------------------------------------------------------------------
+" configure other scripts
+
+let c_no_curly_error = 1
+
+" ---------------------------------------------------------------------------
+" operational settings
+set nocompatible                " vim defaults, not vi!
+syntax on                       " syntax on
+set hidden                      " allow editing multiple unsaved buffers
+set more                        " the 'more' prompt
+filetype on                     " automatic file type detection
+set autoread                    " watch for file changes by other programs
+"set visualbell                  " visual beep
+set vb t_vb=
+set visualbell t_vb=
+
+":set patchmode=~                " only produce *~ if not there
+set noautowrite                 " don't automatically write on :next, etc
+let maplocalleader=','          " all my macros start with ,
+set wildmenu                    " : menu has tab completion, etc
+set scrolloff=5                 " keep at least 5 lines above/below cursor
+set sidescrolloff=5             " keep at least 5 columns left/right of cursor
+set history=300                 " remember the last 300 commands
+set showcmd
+
+
+
+
+
+" ---------------------------------------------------------------------------
+" meta
+map <LocalLeader>ce :edit ~/.vimrc<cr>          " quickly edit this file
+map <LocalLeader>cs :source ~/.vimrc<cr>        " quickly source this file
+
+inoremap <Tab> <tab>
+vnoremap <Tab> =
+
+" ---------------------------------------------------------------------------
+" window spacing
+set cmdheight=2                 " make command line two lines high
+set ruler                       " show the line number on bar
+set lazyredraw                  " don't redraw when running macros
+set number                      " show line number on each line
+"set winheight=999               " maximize split windows
+"set winminheight=0              " completely hide other windws
+
+map <LocalLeader>w+ 100<C-w>+  " grow by 100
+map <LocalLeader>w- 100<C-w>-  " shrink by 100
+
+" ---------------------------------------------------------------------------
+" mouse settings
+set mouse=a                     " mouse support in all modes
+set mousehide                   " hide the mouse when typing text
+
+" ,p and shift-insert will paste the X buffer, even on the command line
+nmap <LocalLeader>p i<S-MiddleMouse><ESC>
+imap <S-Insert> <S-MiddleMouse>
+cmap <S-Insert> <S-MiddleMouse>
+
+" this makes the mouse paste a block of text without formatting it
+" (good for code)
+map <MouseMiddle> <esc>"*p
+
+" ---------------------------------------------------------------------------
+" global editing settings
+set autoindent smartindent cindent     " turn on auto/smart indenting
+" set expandtab                 " use spaces, not tabs
+set smarttab                    " make <tab> and <backspace> smarter
+" set tabstop=2                 " tabstops of 2
+set shiftwidth=2                " indents of 2
+set backspace=eol,start,indent  " allow backspacing over indent, eol, & start
+set undolevels=1000             " number of forgivable mistakes
+set updatecount=100             " write swap file to disk every 100 chars
+set complete=.,w,b,u,U,t,i,d    " do lots of scanning on tab completion
+set viminfo=%100,'100,/100,h,\"500,:100,n~/.viminfo
+set cino =>4^-2e2{2n-2
+"set textwidth=80
+
+set nofoldenable
+
+
+" ---------------------------------------------------------------------------
+" searching...
+set hlsearch                   " enable search highlight globally
+set incsearch                  " show matches as soon as possible
+set showmatch                  " show matching brackets when typing
+" disable last one highlight
+nmap <LocalLeader>nh :nohlsearch<cr>
+
+set diffopt=filler,iwhite       " ignore all whitespace and sync
+
+" ---------------------------------------------------------------------------
+" spelling...
+if v:version >= 700
+  let b:lastspelllang='en'
+  function! ToggleSpell()
+    if &spell == 1
+      let b:lastspelllang=&spelllang
+      setlocal spell!
+    elseif b:lastspelllang
+      setlocal spell spelllang=b:lastspelllang
+    else
+      setlocal spell spelllang=en
+    endif
+  endfunction
+
+  nmap <LocalLeader>ss :call ToggleSpell()<CR>
+
+  setlocal spell spelllang=en
+  setlocal nospell
+endif
+
+" ---------------------------------------------------------------------------
+" some useful mappings
+
+" disable yankring
+let loaded_yankring = 22
+
+" Y yanks from cursor to $
+map Y y$
+" toggle list mode
+nmap <LocalLeader>tl :set list!<cr>
+" toggle paste mode
+nmap <LocalLeader>pp :set paste!<cr>
+" change directory to that of current file
+nmap <LocalLeader>cd :cd%:p:h<cr>
+" change local directory to that of current file
+"nmap <LocalLeader>lcd :lcd%:p:h<cr>
+" correct type-o's on exit
+nmap q: :q
+
+" word swapping
+nmap <silent> gw "_yiw:s/\(\%#\w\+\)\(\W\+\)\(\w\+\)/\3\2\1/<cr><c-o><c-l>
+" char swapping
+nmap <silent> gc xph
+
+" save and build
+nmap <LocalLeader>wm  :w<cr>:make<cr>
+
+
+
+" ---------------------------------------------------------------------------
+"  buffer management, note 'set hidden' above
+
+" Move to next buffer
+map <LocalLeader>bn :bn<cr>
+" Move to previous buffer
+map <LocalLeader>bp :bp<cr>
+" List open buffers
+map <LocalLeader>bb :ls<cr>
+
+
+" ---------------------------------------------------------------------------
+" dealing with merge conflicts
+
+" find merge conflict markers
+:map <LocalLeader>fc /\v^[<=>]{7}( .*\|$)<CR>
+
+
+" ---------------------------------------------------------------------------
+
+
+
+" ---------------------------------------------------------------------------
+
+function! OnlineDoc()
+  let s:browser = "firefox3"
+  let s:wordUnderCursor = expand("<cword>")
+
+  if &ft == "cpp" || &ft == "c" || &ft == "ruby" || &ft == "php" || &ft == "python"
+    let s:url = "http://www.google.com/codesearch?q=".s:wordUnderCursor."+lang:".&ft
+  elseif &ft == "vim"
+    let s:url = "http://www.google.com/codesearch?q=".s:wordUnderCursor
+  else
+    return
+  endif
+
+  let s:cmd = "silent !" . s:browser . " '" . s:url . "'"
+  echo  s:cmd
+  execute  s:cmd
+  redraw!
+endfunction
+
+" online doc search
+map <LocalLeader>k :call OnlineDoc()<CR>
+
+
+" ---------------------------------------------------------------------------
+" setup for the visual environment
+if has('gui_running')
+  set guioptions-=T
+  set guioptions-=m
+  set guioptions+=c
+  if !has("unix")
+    set guifont=Consolas:h10
+    winsize 120 30
+  endif
+endif
+
+if $TERM =~ '.*256.*'
+  set t_Co=256
+  colorscheme nwombat
+else
+  set t_Co=16
+endif
+
+" ---------------------------------------------------------------------------
+" auto load extensions for different file types
+if has('autocmd')
+  filetype plugin indent on
+  syntax on
+
+  " jump to last line edited in a given file (based on .viminfo)
+  "autocmd BufReadPost *
+  "       \ if !&diff && line("'\"") > 0 && line("'\"") <= line("$") |
+  "       \       exe "normal g`\"" |
+  "       \ endif
+  autocmd BufReadPost *
+          \ if line("'\"") > 0|
+          \       if line("'\"") <= line("$")|
+          \               exe("norm '\"")|
+          \       else|
+          \               exe "norm $"|
+          \       endif|
+          \ endif
+
+  " improve legibility
+  au BufRead quickfix setlocal nobuflisted wrap number
+
+  " configure various extenssions
+  let git_diff_spawn_mode=2
+
+  " improved formatting for markdown
+  " http://plasticboy.com/markdown-vim-mode/
+  autocmd BufRead *.mkd  set ai formatoptions=tcroqn2 comments=n:>
+  autocmd BufRead ~/.blog/entries/*  set ai formatoptions=tcroqn2 comments=n:>
+endif
+
+
+
+" ===========================================================================
+
+
+" ---------------------------------------------------------------------------
+"  configure calendar
+let g:calendar_monday = 1
+
