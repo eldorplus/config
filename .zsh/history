@@ -1,0 +1,11 @@
+: 1298205773:0;mv zshrc.zsh-template ..
+: 1298205775:0;..
+: 1298205776:0;ls
+: 1298205779:0;mv zshrc.zsh-template zshrc
+: 1298205781:0;vim zshrc
+: 1298205800:0;clean
+: 1298205802:0;ls
+: 1298205803:0;..
+: 1298205806:0;rm .zshrc
+: 1298205811:0;ln -s .zsh/zshrc .zshrc
+: 1298205815:0;git commit -a
