@@ -1,0 +1,14 @@
+#!/bin/sh
+#
+# fluxbox startup-script:
+#
+
+# Change your keymap:
+xmodmap "/root/.Xmodmap"
+
+fbsetbg -f ~/.fluxbox/styles/Elfin2/wallpaper.png
+
+# And last but not least we start fluxbox.
+# Because it is the last app you have to run it with ''exec'' before it.
+
+exec fluxbox
