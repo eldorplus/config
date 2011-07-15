@@ -219,7 +219,7 @@ if has('gui_running')
   endif
 endif
 
-if $TERM =~ '.*256.*'
+if $TERM =~ '.*256.*' || $TERM_PROGRAM =~'.*iTerm.*'
   set t_Co=256
   colorscheme nwombat
 else
