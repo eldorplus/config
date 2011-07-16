@@ -45,6 +45,10 @@ alias -g G='| grep'
 alias -g H='| head -n'
 alias -g D="DISPLAY=:0.0"
 
+alias -g N='> /dev/null 2>&1'
+
+
+
 alias -s c=vim
 alias -s h=vim
 alias -s txt=vim
